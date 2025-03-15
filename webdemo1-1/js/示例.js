@@ -3,9 +3,8 @@
 
   const btnControl = document.getElementById("btn_control");
 
-  const recorder = new RecorderManager("dist");
+  const recorder = new RecorderManager("../../dist");
   recorder.onStart = () => {
-    console.log("onStart");
     changeBtnStatus("OPEN");
   }
   let iseWS;
@@ -16,11 +15,10 @@
    */
   function getWebSocketUrl() {
     // 请求地址根据语种不同变化
-    // 如果换api，这里是要改的地方
     var url = "wss://ise-api.xfyun.cn/v2/open-ise";
     var host = "ise-api.xfyun.cn";
-    var apiKey = "9939e98c7aa76c1660cb2023ef9fc120";
-    var apiSecret = "ZTVjYzEwOGJkZjczNmIyMjJkYjgxOGE1";
+    var apiKey = API_KEY;
+    var apiSecret = API_SECRET;
     var date = new Date().toGMTString();
     var algorithm = "hmac-sha256";
     var headers = "host date request-line";
@@ -33,7 +31,6 @@
     return url;
   }
 
-  //通常用于将二进制数据（如音频或视频数据）转换为可以在网络上传输的字符串。  
   function toBase64(buffer) {
     var binary = "";
     var bytes = new Uint8Array(buffer);
@@ -57,7 +54,6 @@
     }
   }
 
-  // 测评结果显示***********************************************************************************************
   function renderResult(resultData) {
     // 识别结束
     let jsonData = JSON.parse(resultData);
@@ -70,13 +66,8 @@
         ignoreAttributes: false,
       });
       console.log(grade);
-
-      //yshi 3.3 added
-      const readSentence = grade?.xml_result?.read_sentence?.rec_paper?.read_chapter;
-      // const readWord = grade?.xml_result?.read_word?.rec_paper?.read_chapter;
-      // const readParagraph = grade?.xml_result?.read_paragraph?.rec_paper?.read_chapter;
-      // const readWord = grade?.xml_result?.read_word?.rec_paper?.read_chapter;
-
+      const readSentence =
+        grade?.xml_result?.read_sentence?.rec_paper?.read_chapter;
       document.getElementById("accuracy_score").innerText =
         readSentence?.accuracy_score;
       document.getElementById("fluency_score").innerText =
@@ -91,8 +82,6 @@
         readSentence?.emotion_score || 0;
       document.getElementById("total_score").innerText =
         readSentence?.total_score;
-
-      document.getElementById("syll").innerText = readSentence?.syll;
       let sentence = readSentence?.word || [];
       let resultStr = "";
       sentence.forEach((item) => {
@@ -235,7 +224,6 @@
       connectWebSocket();
     } else if (btnStatus === "CONNECTING" || btnStatus === "OPEN") {
       // 结束录音
-      console.log("停止录音");
       recorder.stop();
     }
   };
