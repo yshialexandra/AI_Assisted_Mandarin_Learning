@@ -270,7 +270,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         // 显示对应的模块
         var correspondingModule = moduleItems[index];
-         console.log("there", index)
          //console.log(correspondingModule)
         correspondingModule.style.display = 'block';
         sidelogos[index].src = img_fff[index]
@@ -282,7 +281,6 @@ document.addEventListener('DOMContentLoaded', function () {
           logo.src = img_color[index]
         });
         // 显示对应的模块
-        console.log("here", index)
         var correspondingModule = moduleItems[index];
         // console.log(index)
         // console.log(correspondingModule)
